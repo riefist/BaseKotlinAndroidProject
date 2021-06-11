@@ -1,29 +1,27 @@
 package id.aibangstudio.basekotlin.presentation.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.ajalt.timberkt.e
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.GroupieViewHolder
-import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.inject
-import id.aibangstudio.basekotlin.R
+import id.aibangstudio.basekotlin.databinding.ActivityMainBinding
+import id.aibangstudio.basekotlin.presentation.base.BaseViewBindingActivity
 import id.aibangstudio.basekotlin.utils.UiState
 import id.aibangstudio.basekotlin.utils.gone
 import id.aibangstudio.basekotlin.utils.visible
+import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseViewBindingActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     private val groupAdapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
     private val vm: MainViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-        rvTeams.apply {
+        binding.rvTeams.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = groupAdapter
         }
@@ -31,16 +29,16 @@ class MainActivity : AppCompatActivity() {
         vm.teamState.observe(this, Observer {
             when(it){
                 is UiState.Loading -> {
-                    progressBar.visible()
+                    binding.progressBar.visible()
                 }
                 is UiState.Success -> {
-                    progressBar.gone()
+                    binding.progressBar.gone()
                     it.data.forEach {
                         groupAdapter.add(TeamItem(it))
                     }
                 }
                 is UiState.Error -> {
-                    progressBar.gone()
+                    binding.progressBar.gone()
                     e(it.throwable)
                 }
             }
