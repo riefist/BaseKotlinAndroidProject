@@ -1,5 +1,6 @@
-package id.aibangstudio.momakan.utils.scheduler
+package id.aibangstudio.basekotlin.core.ext
 
+import id.aibangstudio.basekotlin.core.scheduler.SchedulerProvider
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import io.reactivex.Single

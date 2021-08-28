@@ -1,16 +1,18 @@
 package id.aibangstudio.basekotlin.data.repository
 
-import io.reactivex.Single
 import id.aibangstudio.basekotlin.data.db.dao.TeamDao
 import id.aibangstudio.basekotlin.data.remote.service.TeamService
-import id.aibangstudio.basekotlin.domain.Team
-import id.aibangstudio.basekotlin.utils.mapToListDomain
+import id.aibangstudio.basekotlin.domain.entity.Team
+import id.aibangstudio.basekotlin.domain.repository.TeamRepository
+import io.reactivex.Single
 
-class TeamRepositoryImpl(val teamService: TeamService,
-                         val teamDao: TeamDao) : TeamRepository{
+class TeamRepositoryImpl(
+    private val teamService: TeamService,
+    private val teamDao: TeamDao
+) : TeamRepository {
 
     override fun getTeams(league: String): Single<List<Team>> {
         return teamService.getAllTeams(league)
-            .map { mapToListDomain(it.teams) }
+            .map { it.teams.map { team -> team.toEntity() } }
     }
 }

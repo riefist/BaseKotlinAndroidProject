@@ -1,5 +1,7 @@
 package id.aibangstudio.basekotlin.data.remote.response
 
+import id.aibangstudio.basekotlin.domain.entity.Team
+
 
 data class TeamResponse(
     val teams: List<TeamModel>
@@ -56,4 +58,12 @@ data class TeamModel(
     val strTwitter: String,
     val strWebsite: String,
     val strYoutube: String
-)
+){
+    fun toEntity() = Team(
+        teamId = idTeam,
+        teamName = strTeam,
+        teamDescription = strDescriptionEN,
+        teamLogo = strTeamBadge,
+        teamStadiumName = strStadium
+    )
+}

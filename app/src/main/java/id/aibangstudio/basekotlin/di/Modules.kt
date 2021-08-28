@@ -6,11 +6,12 @@ import id.aibangstudio.basekotlin.data.pref.PreferencesHelper
 import id.aibangstudio.basekotlin.data.remote.createWebService
 import id.aibangstudio.basekotlin.data.remote.provideOkHttpClient
 import id.aibangstudio.basekotlin.data.remote.service.TeamService
-import id.aibangstudio.basekotlin.data.repository.TeamRepository
+import id.aibangstudio.basekotlin.domain.repository.TeamRepository
 import id.aibangstudio.basekotlin.data.repository.TeamRepositoryImpl
 import id.aibangstudio.basekotlin.presentation.main.MainViewModel
-import id.aibangstudio.momakan.utils.scheduler.AppSchedulerProvider
-import id.aibangstudio.momakan.utils.scheduler.SchedulerProvider
+import id.aibangstudio.basekotlin.core.scheduler.AppSchedulerProvider
+import id.aibangstudio.basekotlin.core.scheduler.SchedulerProvider
+import id.aibangstudio.basekotlin.domain.usecase.GetTeamListUseCase
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -26,15 +27,21 @@ val appModule = module {
         Room.databaseBuilder(androidApplication(), AppDatabase::class.java, "app-database").build()
     }
 
-    single { AppSchedulerProvider() as SchedulerProvider }
+    single<SchedulerProvider> { AppSchedulerProvider() }
 
 }
 
 val dataModule = module {
     single { get<AppDatabase>().teamDao() }
-    single { TeamRepositoryImpl(get(), get()) as TeamRepository }
-
-    viewModel { MainViewModel(get(), get()) }
+    single<TeamRepository> { TeamRepositoryImpl(get(), get()) }
 }
 
-val myAppModule = listOf(appModule, dataModule)
+val useCaseModule = module {
+    single { GetTeamListUseCase(get(), get()) }
+}
+
+val viewModelModule = module {
+    viewModel { MainViewModel(get()) }
+}
+
+val myAppModule = listOf(appModule, dataModule, viewModelModule, useCaseModule)

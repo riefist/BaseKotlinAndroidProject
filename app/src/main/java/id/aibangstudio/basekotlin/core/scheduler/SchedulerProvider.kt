@@ -1,4 +1,4 @@
-package id.aibangstudio.momakan.utils.scheduler
+package id.aibangstudio.basekotlin.core.scheduler
 
 import io.reactivex.Scheduler
 

@@ -1,7 +1,7 @@
-package id.aibangstudio.basekotlin.data.repository
+package id.aibangstudio.basekotlin.domain.repository
 
 import io.reactivex.Single
-import id.aibangstudio.basekotlin.domain.Team
+import id.aibangstudio.basekotlin.domain.entity.Team
 
 interface TeamRepository {
 

@@ -1,32 +1,31 @@
 package id.aibangstudio.basekotlin.presentation.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import id.aibangstudio.basekotlin.data.repository.TeamRepository
-import id.aibangstudio.basekotlin.domain.Team
+import id.aibangstudio.basekotlin.domain.entity.Team
+import id.aibangstudio.basekotlin.domain.usecase.GetTeamListUseCase
 import id.aibangstudio.basekotlin.presentation.base.BaseViewModel
 import id.aibangstudio.basekotlin.utils.UiState
-import id.aibangstudio.momakan.utils.scheduler.SchedulerProvider
-import id.aibangstudio.momakan.utils.scheduler.with
 
 class MainViewModel(
-    val teamRepository: TeamRepository,
-    val schedulerProvider: SchedulerProvider
+    private val mGetTeamListUseCase: GetTeamListUseCase
 ) : BaseViewModel() {
 
-    val teamState = MutableLiveData<UiState<List<Team>>>()
+    private val _state = MutableLiveData<UiState<List<Team>>>()
+    val teamState: LiveData<UiState<List<Team>>> = _state
 
     fun getTeams(league: String) {
-        teamState.value = UiState.Loading()
-        compositeDisposable.add(teamRepository.getTeams(league)
-            .with(schedulerProvider)
-            .subscribe({
-                teamState.value = UiState.Success(it)
-            }, this::onError)
+        _state.value = UiState.Loading()
+        compositeDisposable.add(
+            mGetTeamListUseCase(league)
+                .subscribe({
+                    _state.value = UiState.Success(it)
+                }, this::onError)
         )
     }
 
     override fun onError(error: Throwable) {
-        teamState.value = UiState.Error(error)
+        _state.value = UiState.Error(error)
     }
 
 }

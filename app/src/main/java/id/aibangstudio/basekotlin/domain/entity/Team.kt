@@ -1,4 +1,4 @@
-package id.aibangstudio.basekotlin.domain
+package id.aibangstudio.basekotlin.domain.entity
 
 data class Team(
     val teamId: String,
