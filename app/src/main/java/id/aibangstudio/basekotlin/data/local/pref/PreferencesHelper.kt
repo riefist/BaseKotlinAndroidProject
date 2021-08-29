@@ -1,4 +1,4 @@
-package id.aibangstudio.basekotlin.data.pref
+package id.aibangstudio.basekotlin.data.local.pref
 
 import android.content.Context
 import com.github.ajalt.timberkt.d

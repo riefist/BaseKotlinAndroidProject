@@ -1,9 +1,9 @@
-package id.aibangstudio.basekotlin.data.db
+package id.aibangstudio.basekotlin.data.local.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import id.aibangstudio.basekotlin.data.db.dao.TeamDao
-import id.aibangstudio.basekotlin.data.db.entity.TeamEntity
+import id.aibangstudio.basekotlin.data.local.db.dao.TeamDao
+import id.aibangstudio.basekotlin.data.local.db.entity.TeamEntity
 
 @Database(
     entities = [TeamEntity::class],

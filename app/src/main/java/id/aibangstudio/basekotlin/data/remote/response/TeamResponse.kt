@@ -2,7 +2,6 @@ package id.aibangstudio.basekotlin.data.remote.response
 
 import id.aibangstudio.basekotlin.domain.entity.Team
 
-
 data class TeamResponse(
     val teams: List<TeamModel>
 )

@@ -1,4 +1,4 @@
-package id.aibangstudio.basekotlin.data.db.entity
+package id.aibangstudio.basekotlin.data.local.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

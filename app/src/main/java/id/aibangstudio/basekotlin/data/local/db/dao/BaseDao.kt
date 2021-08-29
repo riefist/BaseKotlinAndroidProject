@@ -1,4 +1,4 @@
-package id.aibangstudio.basekotlin.data.db.dao
+package id.aibangstudio.basekotlin.data.local.db.dao
 
 import androidx.room.Delete
 import androidx.room.Insert

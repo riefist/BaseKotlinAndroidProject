@@ -1,31 +1,31 @@
 package id.aibangstudio.basekotlin.presentation.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import id.aibangstudio.basekotlin.domain.entity.Team
+import androidx.lifecycle.viewModelScope
+import id.aibangstudio.basekotlin.core.base.BaseViewModel
+import id.aibangstudio.basekotlin.core.exceptions.Failure
 import id.aibangstudio.basekotlin.domain.usecase.GetTeamListUseCase
-import id.aibangstudio.basekotlin.presentation.base.BaseViewModel
-import id.aibangstudio.basekotlin.utils.UiState
+import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val mGetTeamListUseCase: GetTeamListUseCase
-) : BaseViewModel() {
+) : BaseViewModel<MainViewState>() {
 
-    private val _state = MutableLiveData<UiState<List<Team>>>()
-    val teamState: LiveData<UiState<List<Team>>> = _state
-
-    fun getTeams(league: String) {
-        _state.value = UiState.Loading()
-        compositeDisposable.add(
-            mGetTeamListUseCase(league)
-                .subscribe({
-                    _state.value = UiState.Success(it)
-                }, this::onError)
-        )
+    fun getTeams(league: String){
+        uiState.postValue(MainViewState.Loading)
+        viewModelScope.launch {
+            val result = mGetTeamListUseCase.execute(GetTeamListUseCase.Params(league))
+            result.fold(::handleError) {
+                uiState.postValue(MainViewState.Success(it))
+            }
+        }
     }
 
-    override fun onError(error: Throwable) {
-        _state.value = UiState.Error(error)
+    override fun handleError(failure: Failure) {
+        when (failure) {
+            is Failure.ServerError -> {
+                uiState.postValue(MainViewState.Error("server error : ${failure.message}"))
+            }
+        }
     }
 
 }

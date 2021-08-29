@@ -1,9 +1,10 @@
 # BaseKotlinAndroidProject
-Base Kotlin Android Project
+Base Kotlin Android Project - Clean Architecture
 
 Tech Stack :
 - MVVM
 - Retrofit2
 - Koin
-- Rxjava2
+- Coroutines
 - Glide
+- Kiel
