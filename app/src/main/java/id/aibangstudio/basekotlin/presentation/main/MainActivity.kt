@@ -15,7 +15,7 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : BaseViewBindingActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
-    private val groupAdapter: GroupAdapter<GroupieViewHolder> = GroupAdapter()
+    private val groupAdapter = GroupAdapter<GroupieViewHolder>()
     private val vm: MainViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +46,5 @@ class MainActivity : BaseViewBindingActivity<ActivityMainBinding>(ActivityMainBi
 
         vm.getTeams("English Premier League")
 
-
     }
-
 }
